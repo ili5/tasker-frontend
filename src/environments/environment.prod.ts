@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: 'http://api.tasker.loc/v1'
+  apiUrl: 'https://tasker-api.ilijapetkovic.se/v1'
 };

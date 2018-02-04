@@ -12,4 +12,4 @@ Run `ng build`
 
 ## Build Production
 
-Run `ng build --prod --aot=false`
+Run `ng build --prod`
