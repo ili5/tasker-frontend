@@ -1,0 +1,17 @@
+<h1>Tasks</h1>
+<hr>
+<div class="row top7" *ngFor="let board of boards">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-header">
+        {{ board.name }}
+        <add-task [projectId]="projectId" [boardId]="board.id" [boards]="boards" [users]="users"></add-task>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <single-task class="col-md-3 col-sm-6 col-xs-12" *ngFor="let task of board.tasks" [task]="task"></single-task>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

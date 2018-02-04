@@ -1,0 +1,40 @@
+<ng-template #content let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Add task </h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <form [formGroup]="addTaskForm" (ngSubmit)="addTask(addTaskForm.value)">
+    <div class="modal-body">
+      <div class="form-group label-floating">
+        <label class="control-label" for="title">Task Title</label>
+        <input type="text" id="title" name="title" formControlName="title" class="form-control">
+      </div>
+      <div class="form-group label-floating">
+        <label class="control-label" for="description">Task Description</label>
+        <textarea id="description" name="description" formControlName="description" class="form-control"></textarea>
+      </div>
+      <div class="form-group label-floating">
+        <label class="control-label" for="board_id">Task Board</label>
+        <select class="form-control" id="board_id" name="board_id" formControlName="board_id" *ngIf="boards">
+          <option *ngFor="let board of boards" value="{{ board.id }}" [selected]="board.id == boardId">{{ board.name }}</option>
+        </select>
+      </div>
+      <div class="form-group label-floating">
+        <label class="control-label" for="assigned_id">Assign to</label>
+        <select class="form-control" id="assigned_id" name="assigned_id" formControlName="assigned_id" *ngIf="users">
+          <option *ngFor="let user of users" value="{{ user.id }}" >{{ user.name }}</option>
+        </select>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-dark" (click)="c('Close click')">Close</button>
+      <button type="submit" class="btn btn-outline-primary" [disabled]="!addTaskForm.valid">
+        {{ submitText }}
+      </button>
+    </div>
+  </form>
+</ng-template>
+
+<button class="btn btn-sm btn-outline-primary" (click)="open(content)">Add Task</button>

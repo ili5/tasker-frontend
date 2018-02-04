@@ -1,0 +1,23 @@
+<form [formGroup]="addProjectForm" (ngSubmit)="addProject(addProjectForm.value)" autocomplete="nope">
+  <div class="card">
+    <div class="card-body">
+      <div class="card-header text-center">
+        <h3>Add New Project</h3>
+      </div>
+      <div class="card-content">
+        <div class="form-group label-floating">
+          <label class="control-label" for="name">Project Name</label>
+          <input type="text" id="name" name="name" class="form-control" formControlName="name">
+        </div>
+
+        <div class="form-group label-floating">
+          <label class="control-label" for="description">Project Description</label>
+          <textarea class="form-control" name="description" id="description" formControlName="description"></textarea>
+        </div>
+      </div>
+      <div class="footer text-center">
+        <button type="submit" class="btn btn-primary btn-lg" [disabled]="!addProjectForm.valid">{{ submitText }}</button> <br>
+      </div>
+    </div>
+  </div>
+</form>
