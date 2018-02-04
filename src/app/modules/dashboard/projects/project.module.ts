@@ -9,7 +9,6 @@ import {SingleProjectComponent} from "./single-project/single-project.component"
 import {AssociatedUsersComponent} from "../associated-users/associated-users.component";
 import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 import {ListBoardsComponent} from "../boards/list-boards/list-boards.component";
-import {TimeAgoPipe} from "time-ago-pipe";
 import {SingleTaskComponent} from "../tasks/single-task/single-task.component";
 import {AddTaskComponent} from "../tasks/add-taks/add-task.component";
 import {MatFormFieldModule, MatInputModule, MatOptionModule, MatSelectModule} from "@angular/material";
@@ -27,7 +26,7 @@ import {MatFormFieldModule, MatInputModule, MatOptionModule, MatSelectModule} fr
     MatFormFieldModule
   ],
   declarations: [
-    TimeAgoPipe,
+
     ProjectComponent,
     ListProjectsComponent,
     AddProjectsComponent,
