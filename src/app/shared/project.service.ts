@@ -10,9 +10,11 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 
 @Injectable()
 export class ProjectService {
-  private _getAllProjects = environment.apiUrl + '/projects';
-  private _postAllProjects = environment.apiUrl + '/projects';
-  private _getProject = environment.apiUrl + '/projects/';
+  private _getAllProjectsUrl = environment.apiUrl + '/projects';
+  private _postAllProjectsUrl = environment.apiUrl + '/projects';
+  private _getProjectUrl =  environment.apiUrl + '/projects/';
+  private _deleteProjectUrl = environment.apiUrl + '/projects/';
+  private _patchProjectUrl = environment.apiUrl + '/projects/';
   private options;
 
   constructor(private http: Http, private router: Router, private httpClient: HttpClient) {
@@ -24,28 +26,47 @@ export class ProjectService {
     };
   }
 
-  getProjects(): Observable <ProjectModel[]> {
-    return this.http.get(this._getAllProjects, this.options)
-      .map((response: Response) => {
-        return <ProjectModel[]> response.json().data;
+  getProjects() {
+    return this.httpClient.get<ProjectModel[]>(this._getAllProjectsUrl, this.options)
+      .map((result) => {
+        const data = result['data'];
+        return <ProjectModel[]> data.map(project => new ProjectModel().deserialize(project));
       });
   }
 
-  addProject(projectName: string, projectDescription: string): Observable <ProjectModel> {
+  addProject(projectName: string, projectDescription: string) {
     const body = {
       name: projectName,
       description: projectDescription
     };
-    return this.http.post(this._postAllProjects, body, this.options)
-      .map((response: Response) => {
-        return <ProjectModel> response.json().data;
+    return this.httpClient.post(this._postAllProjectsUrl, body, this.options)
+      .map((response) => {
+        const data = response['data'];
+        return <ProjectModel> new ProjectModel().deserialize(data);
       });
   }
 
-  getProject(projectId: string): Observable <ProjectModel> {
-    return this.http.get(this._getProject + projectId, this.options)
-      .map((response: Response) => {
-        return <ProjectModel> response.json().data;
+  updateProject(id: string, name: string, description: string) {
+    const body = {
+      name: name,
+      description: description
+    };
+    return this.httpClient.patch(this._patchProjectUrl + id, body, this.options)
+      .map((response) => {
+        const data = response['data'];
+        return <ProjectModel> new ProjectModel().deserialize(data);
       });
+  }
+
+  getProject(projectId: string) {
+    return this.httpClient.get(this._getProjectUrl + projectId, this.options)
+      .map((result) => {
+        const data = result['data'];
+        return <ProjectModel> new ProjectModel().deserialize(data);
+      });
+  }
+
+  deleteProject(projectId: string) {
+    return this.httpClient.delete(this._deleteProjectUrl + projectId, this.options);
   }
 }

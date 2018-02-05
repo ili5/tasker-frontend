@@ -1,7 +1,9 @@
-import {Component, OnInit} from "@angular/core";
+import {Component, EventEmitter, OnInit, Output} from "@angular/core";
 import {ProjectService} from "../../../../shared/project.service";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Router} from "@angular/router";
+import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
+import {ProjectModel} from "../../../../shared/models/ProjectModel";
 
 @Component({
   selector: 'add-project',
@@ -11,11 +13,14 @@ import {Router} from "@angular/router";
 })
 export class AddProjectsComponent implements OnInit {
   addProjectForm: FormGroup;
+  @Output() onProjectAdded: EventEmitter<ProjectModel> = new EventEmitter<ProjectModel>();
   public submitText = 'Add project';
+  modalReference: any;
 
   constructor(private projectService: ProjectService,
               private fb: FormBuilder,
-              private router: Router) {
+              private router: Router,
+              private modalService: NgbModal) {
     this.addProjectForm = fb.group({
       'name'  : [null, Validators.required],
       'description' : [null],
@@ -30,12 +35,21 @@ export class AddProjectsComponent implements OnInit {
   addProject(values) {
     this.submitText = 'Please wait...';
     this.projectService.addProject(values.name, values.description).subscribe(
-      data => {
-        this.router.navigateByUrl('/dashboard');
+      (data: ProjectModel) => {
+          this.onProjectAdded.emit(data);
+          this.modalReference.close();
       },
       error =>  {
         console.log(error);
       }
     );
+  }
+
+  open(content) {
+    this.modalReference = this.modalService.open(content);
+  }
+
+  get name(){
+    return this.addProjectForm.get('name');
   }
 }

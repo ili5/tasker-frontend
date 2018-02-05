@@ -12,6 +12,8 @@ import {ListBoardsComponent} from "../boards/list-boards/list-boards.component";
 import {SingleTaskComponent} from "../tasks/single-task/single-task.component";
 import {AddTaskComponent} from "../tasks/add-taks/add-task.component";
 import {MatFormFieldModule, MatInputModule, MatOptionModule, MatSelectModule} from "@angular/material";
+import {MomentModule} from "angular2-moment";
+import {EditProjectsComponent} from "./edit-projects/edit-projects.component";
 
 @NgModule({
   imports: [
@@ -23,13 +25,15 @@ import {MatFormFieldModule, MatInputModule, MatOptionModule, MatSelectModule} fr
     MatInputModule,
     MatSelectModule,
     MatOptionModule,
-    MatFormFieldModule
+    MatFormFieldModule,
+    MomentModule
   ],
   declarations: [
 
     ProjectComponent,
     ListProjectsComponent,
     AddProjectsComponent,
+    EditProjectsComponent,
     SingleProjectComponent,
     AssociatedUsersComponent,
     ListBoardsComponent,

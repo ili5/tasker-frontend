@@ -2,6 +2,7 @@ import {Component, OnInit} from "@angular/core";
 import {ProjectService} from "../../../../shared/project.service";
 import {Subscription} from "rxjs/Subscription";
 import {ProjectModel} from "../../../../shared/models/ProjectModel";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'list-projects',
@@ -16,7 +17,7 @@ export class ListProjectsComponent implements OnInit {
   public projects: ProjectModel[] = [];
   public loading = false;
 
-  constructor(public projectService: ProjectService) {}
+  constructor(public projectService: ProjectService, private router: Router) {}
 
   ngOnInit() {
     this.loading = true;
@@ -29,5 +30,22 @@ export class ListProjectsComponent implements OnInit {
         console.log(error);
       }
     );
+  }
+
+  public addProject(project: ProjectModel) {
+    this.projects.push(project);
+  }
+
+  public editProject(project: ProjectModel) {
+    this.projects.map((existingProject, i) => {
+      if (existingProject.id === project.id) {
+        this.projects[i] = project;
+      }
+    });
+  }
+
+  public deleteProject(id: string) {
+    this.projectService.deleteProject(id).subscribe();
+    this.projects = this.projects.filter(project => project.id !== id);
   }
 }

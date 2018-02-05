@@ -1,11 +1,11 @@
 <ng-template #content let-c="close" let-d="dismiss">
   <div class="modal-header">
-    <h4 class="modal-title">Add task </h4>
+    <h4 class="modal-title">Edit task </h4>
     <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
-  <form [formGroup]="addProjectForm" (ngSubmit)="addProject(addProjectForm.value)" autocomplete="nope">
+  <form [formGroup]="editProjectForm" (ngSubmit)="editProject(editProjectForm.value)" autocomplete="nope">
     <div class="modal-body">
       <div class="form-group label-floating">
         <label class="control-label"  [ngClass]="{'text-danger': name.touched && name.errors?.required}" for="name">Project Name</label>
@@ -21,10 +21,9 @@
     </div>
     <div class="modal-footer">
       <button type="button" class="btn btn-outline-dark" (click)="c('Close click')">Close</button>
-      <button type="submit" class="btn btn-outline-primary" [disabled]="!addProjectForm.valid">{{ submitText }}</button>
+      <button type="submit" class="btn btn-outline-primary" [disabled]="!editProjectForm.valid">{{ submitText }}</button>
     </div>
   </form>
 </ng-template>
 
-<button class="btn btn-sm btn-outline-primary" (click)="open(content)">Add Project</button>
-
+<button type="button" class="btn btn-sm btn-outline-light pull-right" (click)="open(content)">Edit</button>

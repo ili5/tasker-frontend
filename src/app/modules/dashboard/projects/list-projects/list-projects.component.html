@@ -1,8 +1,6 @@
 <div class="row justify-content-center ">
   <div class="col col-md-auto">
-    <a [routerLink]="['project/add']" class="btn btn-lg btn btn-info">
-      Add New Project
-    </a>
+    <add-project (onProjectAdded)="addProject($event)"></add-project>
   </div>
 </div>
 <br>
@@ -12,14 +10,29 @@
   </div>
 </div>
 <div class="row">
-  <div class="col-3" *ngFor="let project of projects">
-    <div class="card" >
-      <a [routerLink]="['project/', project.id]">
-        <div class="card-body">
-          <h3 class="card-title">{{ project.name }}</h3>
-          {{ project.description }}
+  <div class="col-4" *ngFor="let project of projects">
+    <div class="card bg-light mb-3" >
+      <div class="card-header bg-secondary">
+        <a [routerLink]="['project/', project.id]">
+          <h4 class="pull-left">{{ project.name }}</h4>
+        </a>
+        <div class="pull-right" *ngIf="project.owner">
+          <div class="btn-group">
+            <edit-projects [project]="project" (onProjectEdited)="editProject($event)"></edit-projects>
+          </div>
+          <div class="btn-group">
+            <button type="button" class="btn btn-sm btn-danger pull-right" (click)="deleteProject(project.id)">Delete</button>
+          </div>
         </div>
-      </a>
+
+      </div>
+      <div class="card-body">
+        <p class="card-text">Description</p>
+        <p class="card-text"><small>{{ project.description }}</small></p>
+      </div>
+      <div class="card-footer">
+        <p class="card-text text-right"><small>Created: {{ project.created_at.date | amTimeAgo }} </small></p>
+      </div>
     </div>
   </div>
 </div>

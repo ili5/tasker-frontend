@@ -10,6 +10,7 @@ import {UserModel} from './models/UserModel';
 export class UserService {
   private _loginUrl = environment.apiUrl + '/clients/web/admin/login';
   private _registerUrl = environment.apiUrl + '/register';
+  private _getMe = environment.apiUrl + '/me';
   private httpOptions = {};
 
   constructor(private httpClient: HttpClient) {
@@ -44,6 +45,41 @@ export class UserService {
       .map((result) => {
         return new UserModel().deserialize(result.data);
       });
+  }
+
+  me() {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization' : 'Bearer ' + localStorage.getItem('accessToken'),
+      })
+    };
+    return this.httpClient.get<UserModel>(this._getMe, httpOptions)
+      .map((result) => {
+        const data = result['data'];
+        localStorage.setItem('me', JSON.stringify(data));
+      });
+  }
+
+  checkMe() {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization' : 'Bearer ' + localStorage.getItem('accessToken'),
+      })
+    };
+    return this.httpClient.get<UserModel>(this._getMe, httpOptions)
+      .map((result) => {
+        const data = result['data'];
+        localStorage.setItem('me', JSON.stringify(data));
+        return new UserModel().deserialize(data);
+      });
+  }
+
+  getMe() {
+    return new UserModel().deserialize(localStorage.getItem('accessToken'));
   }
 
 }

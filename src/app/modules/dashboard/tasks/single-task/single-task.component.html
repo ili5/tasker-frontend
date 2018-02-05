@@ -7,7 +7,7 @@
       {{ task.description}}
     </div>
     <div class="card-footer">
-      {{ task.updated_at.date }}
+      {{ task.updated_at.date | amTimeAgo }}
     </div>
   </div>
 </div>

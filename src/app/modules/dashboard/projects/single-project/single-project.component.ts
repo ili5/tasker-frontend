@@ -26,10 +26,10 @@ export class SingleProjectComponent implements OnInit {
     this.subscription = this.projectService.getProject(this.projectId).subscribe(
       data => {
         this.project = data;
-        this.associatedUsers = this.project.associatedUsers.data;
-        this.projectOwner = this.project.user.data;
-        this.tasks = this.project.tasks.data;
-        this.boards = this.project.boards.data;
+        this.associatedUsers = this.project.associatedUsers;
+        this.projectOwner = this.project.user;
+        this.tasks = this.project.tasks;
+        this.boards = this.project.boards;
         this.users.push(this.projectOwner);
         this.associatedUsers.forEach(user => {
           this.users.push(user);

@@ -30,11 +30,11 @@ export class LoginComponent implements OnInit {
     this.submitText = 'Please wait...';
     this._userService.login(values.email, values.password).subscribe(
       data => {
-        console.log(data);
         localStorage.setItem('accessToken', data.access_token);
         localStorage.setItem('expiresIn', data.expires_in);
         localStorage.setItem('refreshToken', data.refresh_token);
         localStorage.setItem('tokenType', data.token_type);
+        this._userService.me().subscribe();
         this.router.navigateByUrl('/dashboard');
       },
       error => {
