@@ -29,9 +29,8 @@ export class RegisterComponent implements OnInit {
 
   register(values) {
     this.submitText = "Please wait...";
-    this._userService.register(values.name, values.email, values.password).subscribe(data => {
-        this.success = true;
-    }, error => {
+    this._userService.register(values.name, values.email, values.password).subscribe(data => this.success = true,
+    error => {
       console.log(error);
     });
   }

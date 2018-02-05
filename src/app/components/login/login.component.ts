@@ -12,7 +12,7 @@ import {Router} from "@angular/router";
 export class LoginComponent implements OnInit {
 
   loginForm: FormGroup;
-  public submitText = "Login";
+  public submitText = 'Login';
 
   constructor(private fb: FormBuilder, private _userService: UserService, private router: Router) {
     this.loginForm = fb.group({
@@ -27,9 +27,10 @@ export class LoginComponent implements OnInit {
   ngOnInit() {}
 
   login(values) {
-    this.submitText = "Please wait...";
+    this.submitText = 'Please wait...';
     this._userService.login(values.email, values.password).subscribe(
       data => {
+        console.log(data);
         localStorage.setItem('accessToken', data.access_token);
         localStorage.setItem('expiresIn', data.expires_in);
         localStorage.setItem('refreshToken', data.refresh_token);

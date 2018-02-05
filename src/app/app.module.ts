@@ -13,6 +13,7 @@ import {CanActivateGuard} from "./shared/canActivateGuard";
 import {LayoutComponent} from "./components/layout/layout.component";
 import {LogoutComponent} from "./components/logout/logout.component";
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import {HttpClientModule} from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
     FormsModule,
     ReactiveFormsModule,
     HttpModule,
+    HttpClientModule,
     BrowserAnimationsModule,
     AppRoutingModule
   ],

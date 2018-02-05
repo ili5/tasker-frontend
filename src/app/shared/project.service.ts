@@ -6,21 +6,22 @@ import {Observable} from "rxjs/Observable";
 import {ProjectModel} from "./models/ProjectModel";
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/toPromise';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 
 @Injectable()
 export class ProjectService {
   private _getAllProjects = environment.apiUrl + '/projects';
   private _postAllProjects = environment.apiUrl + '/projects';
   private _getProject = environment.apiUrl + '/projects/';
-  private headers;
   private options;
 
-  constructor(private http: Http, private router: Router) {
-    this.headers = new Headers({
+  constructor(private http: Http, private router: Router, private httpClient: HttpClient) {
+    this.options = {
+      headers: new HttpHeaders({
         'Accept'  : 'application/json',
         'Authorization' : 'Bearer ' + localStorage.getItem('accessToken'),
-    });
-    this.options = new RequestOptions({headers: this.headers});
+      })
+    };
   }
 
   getProjects(): Observable <ProjectModel[]> {
