@@ -49,7 +49,7 @@ export class EditProjectsComponent {
 
   editProject(value) {
     this.errors = {};
-
+    this.submitText = 'Please wait...';
     this.projectService.updateProject(this.project.id, value.name, value.description).subscribe(
       (data: ProjectModel) => {
           this.onProjectEdited.emit(data);
