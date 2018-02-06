@@ -31,7 +31,10 @@
         <p class="card-text"><small>{{ project.description }}</small></p>
       </div>
       <div class="card-footer">
-        <p class="card-text text-right"><small>Created: {{ project.created_at.date | amTimeAgo }} </small></p>
+        <p class="card-text">
+          <small class="text-left pull-left" *ngIf="!project.owner">Project owner: {{ project.user.name }}</small>
+          <small class="text-right pull-right">Created: {{ project.created_at.date | amTimeAgo }} </small>
+        </p>
       </div>
     </div>
   </div>

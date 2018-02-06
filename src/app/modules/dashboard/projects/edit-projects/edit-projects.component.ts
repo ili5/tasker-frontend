@@ -15,6 +15,7 @@ export class EditProjectsComponent {
   editProjectForm: FormGroup;
   public submitText = 'Edit project';
   modalReference: any;
+  errors: any;
 
   constructor(private projectService: ProjectService,
               private fb: FormBuilder,
@@ -30,7 +31,16 @@ export class EditProjectsComponent {
   open(content) {
     this.editProjectForm.controls['name'].setValue(this.project.name);
     this.editProjectForm.controls['description'].setValue(this.project.description);
-    this.modalReference = this.modalService.open(content);
+    this.errors = {}
+    this.modalReference = this.modalService.open(content, {
+      backdrop: false,
+      beforeDismiss: () => {
+        this.editProjectForm.reset();
+        this.errors = {};
+        return true;
+      },
+      size: 'lg'
+    });
   }
 
   get name(){
@@ -38,10 +48,20 @@ export class EditProjectsComponent {
   }
 
   editProject(value) {
+    this.errors = {};
+
     this.projectService.updateProject(this.project.id, value.name, value.description).subscribe(
       (data: ProjectModel) => {
           this.onProjectEdited.emit(data);
           this.modalReference.close();
+          this.submitText = 'Edit project';
+          this.editProjectForm.reset();
+      },
+      error => {
+        if (error.status === 422) {
+          this.errors = error.error.errors;
+          this.submitText = 'Edit project';
+        }
       }
     );
   }

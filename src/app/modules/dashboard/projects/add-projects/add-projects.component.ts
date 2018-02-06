@@ -16,6 +16,7 @@ export class AddProjectsComponent implements OnInit {
   @Output() onProjectAdded: EventEmitter<ProjectModel> = new EventEmitter<ProjectModel>();
   public submitText = 'Add project';
   modalReference: any;
+  errors: any;
 
   constructor(private projectService: ProjectService,
               private fb: FormBuilder,
@@ -26,6 +27,7 @@ export class AddProjectsComponent implements OnInit {
       'description' : [null],
       'validate': ''
     });
+
   }
 
   ngOnInit() {
@@ -33,20 +35,36 @@ export class AddProjectsComponent implements OnInit {
   }
 
   addProject(values) {
+    this.errors = {};
     this.submitText = 'Please wait...';
     this.projectService.addProject(values.name, values.description).subscribe(
       (data: ProjectModel) => {
           this.onProjectAdded.emit(data);
-          this.modalReference.close();
+          this.modalReference.dismiss();
+          this.submitText = 'Add Project';
+          this.addProjectForm.reset();
       },
       error =>  {
-        console.log(error);
+          if (error.status === 422) {
+            this.errors = error.error.errors;
+            this.submitText = 'Add Project';
+          }
+
       }
     );
   }
 
   open(content) {
-    this.modalReference = this.modalService.open(content);
+    this.errors = {};
+    this.modalReference = this.modalService.open(content, {
+      backdrop: false,
+      beforeDismiss: () => {
+        this.addProjectForm.reset();
+        this.errors = {};
+        return true;
+      },
+      size: 'lg'
+    });
   }
 
   get name(){
