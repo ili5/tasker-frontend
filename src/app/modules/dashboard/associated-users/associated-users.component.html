@@ -1,12 +1,22 @@
 <div class="card">
   <div class="card-header">
-    Users Associated with this project
+    <span class="pull-left">
+      Associated users
+    </span>
+    <button class="btn btn-sm btn-outline-primary pull-right" *ngIf="checkOwner()">Add User</button>
   </div>
   <div class="card-body">
     <strong>Project Owner:</strong> {{ projectOwner?.name }}
     <hr>
     <div class="list-group">
-      <div class="list-group-item d-flex justify-content-between align-items-center" *ngFor="let user of users">{{ user.name }}</div>
+      <div class="list-group-item d-flex justify-content-between align-items-center" *ngFor="let user of users">
+        <span class="pull-left">
+          {{ user.name }}
+        </span>
+        <span class="pull-right" *ngIf="checkOwner()">
+          <small class="remove-user" (click)="removeUser(user.id)">Remove</small>
+        </span>
+      </div>
     </div>
   </div>
 </div>

@@ -1,4 +1,12 @@
-<associated-users [users]="associatedUsers" [projectOwner]="projectOwner"></associated-users>
-<div *ngIf="boards">
-  <list-boards [boards]="boards" [projectId]="projectId" [users]="users"></list-boards>
+<div class="row">
+  <div class="col-3">
+    <associated-users [users]="associatedUsers" [projectOwner]="projectOwner" [projectId]="projectId"></associated-users>
+  </div>
+  <div class="col-9">
+    <div *ngIf="boards">
+      <list-boards [boards]="boards" [projectId]="projectId" [users]="users"></list-boards>
+    </div>
+  </div>
 </div>
+
+

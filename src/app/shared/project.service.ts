@@ -15,6 +15,7 @@ export class ProjectService {
   private _getProjectUrl =  environment.apiUrl + '/projects/';
   private _deleteProjectUrl = environment.apiUrl + '/projects/';
   private _patchProjectUrl = environment.apiUrl + '/projects/';
+  private _deleteAssociatedUserUrl = environment.apiUrl + '/associatedusers/';
   private options;
 
   constructor(private http: Http, private router: Router, private httpClient: HttpClient) {
@@ -68,5 +69,9 @@ export class ProjectService {
 
   deleteProject(projectId: string) {
     return this.httpClient.delete(this._deleteProjectUrl + projectId, this.options);
+  }
+
+  removeAssociatedUser(projectId: string, userId: string) {
+    return this.httpClient.delete(this._deleteAssociatedUserUrl + projectId + '/' + userId, this.options);
   }
 }

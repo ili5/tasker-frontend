@@ -4,8 +4,10 @@
   <div class="col-md-12">
     <div class="card">
       <div class="card-header">
-        {{ board.name }}
-        <add-task [projectId]="projectId" [boardId]="board.id" [boards]="boards" [users]="users"></add-task>
+        <span class="pull-left">
+          {{ board.name }}
+        </span>
+        <add-task class="pull-right" [projectId]="projectId" [boardId]="board.id" [boards]="boards" [users]="users"></add-task>
       </div>
       <div class="card-body">
         <div class="row">
