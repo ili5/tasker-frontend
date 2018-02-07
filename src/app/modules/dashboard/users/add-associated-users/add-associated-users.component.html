@@ -1,0 +1,47 @@
+<ng-template #content let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Add user</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+
+  <div class="modal-body">
+    <form [formGroup]="searchUserForm" (ngSubmit)="search(searchUserForm.value)" autocomplete="nope">
+      <div class="form-group label-floating">
+        <label class="control-label"  [class.text-danger]="(query.touched && query.errors?.required) || errors?.query" for="query">Search user by name or email</label>
+        <input type="text" id="query" name="query" class="form-control" [class.is-invalid]="(query.touched && query.errors?.required) || errors?.name"  formControlName="query">
+        <div class="invalid-feedback" *ngIf="query.touched && query.errors?.required">
+          Query term is required
+        </div>
+        <div class="invalid-feedback" *ngIf="errors?.query">
+          {{ errors.query }}
+        </div>
+      </div>
+      <button type="submit" class="btn btn-outline-primary pull-right" [disabled]="!searchUserForm.valid">{{ submitText }}</button>
+    </form>
+    <div *ngIf="users">
+      <div class="clearfix"></div>
+      <hr>
+      <strong>Results:</strong>
+      <small *ngIf="users.length == 0">
+        No users found
+      </small>
+      <div class="list-group">
+        <div class="list-group-item list-group-item-light list-group-item-action" *ngFor="let user of users" >
+          <span class="pull-left">
+            {{ user.name }}
+          </span>
+          <button type="button" class="btn btn-sm btn-success pull-right" (click)="addUserToProject(user.id)">
+            Add
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+  </div>
+</ng-template>
+
+<button class="btn btn-sm btn-outline-primary pull-right" (click)="open(content)">Add User</button>
+

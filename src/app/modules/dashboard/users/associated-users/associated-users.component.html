@@ -3,7 +3,7 @@
     <span class="pull-left">
       Associated users
     </span>
-    <button class="btn btn-sm btn-outline-primary pull-right" *ngIf="checkOwner()">Add User</button>
+    <add-associated-users [projectId]="projectId" (onUserAdded)="addUser($event)"></add-associated-users>
   </div>
   <div class="card-body">
     <strong>Project Owner:</strong> {{ projectOwner?.name }}

@@ -6,7 +6,6 @@ import {CommonModule} from "@angular/common";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {AddProjectsComponent} from "./add-projects/add-projects.component";
 import {SingleProjectComponent} from "./single-project/single-project.component";
-import {AssociatedUsersComponent} from "../associated-users/associated-users.component";
 import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 import {ListBoardsComponent} from "../boards/list-boards/list-boards.component";
 import {SingleTaskComponent} from "../tasks/single-task/single-task.component";
@@ -14,6 +13,8 @@ import {AddTaskComponent} from "../tasks/add-taks/add-task.component";
 import {MatFormFieldModule, MatInputModule, MatOptionModule, MatSelectModule} from "@angular/material";
 import {MomentModule} from "angular2-moment";
 import {EditProjectsComponent} from "./edit-projects/edit-projects.component";
+import {AssociatedUsersComponent} from "../users/associated-users/associated-users.component";
+import {AddAssociatedUsersComponent} from "../users/add-associated-users/add-associated-users.component";
 
 @NgModule({
   imports: [
@@ -36,6 +37,7 @@ import {EditProjectsComponent} from "./edit-projects/edit-projects.component";
     EditProjectsComponent,
     SingleProjectComponent,
     AssociatedUsersComponent,
+    AddAssociatedUsersComponent,
     ListBoardsComponent,
     SingleTaskComponent,
     AddTaskComponent

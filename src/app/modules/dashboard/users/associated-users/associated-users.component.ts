@@ -1,6 +1,6 @@
 import {Component, Input} from "@angular/core";
-import {UserModel} from "../../../shared/models/UserModel";
-import {ProjectService} from '../../../shared/project.service';
+import {ProjectService} from "../../../../shared/project.service";
+import {UserModel} from "../../../../shared/models/UserModel";
 
 @Component({
   selector: 'associated-users',
@@ -30,5 +30,9 @@ export class AssociatedUsersComponent {
         this.users = this.users.filter(user => user.id !== userId);
       }
     );
+  }
+
+  addUser(user: UserModel) {
+    this.users.push(user);
   }
 }

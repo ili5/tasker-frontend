@@ -7,6 +7,7 @@ import {ProjectModel} from "./models/ProjectModel";
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/toPromise';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {UserModel} from "./models/UserModel";
 
 @Injectable()
 export class ProjectService {
@@ -16,6 +17,7 @@ export class ProjectService {
   private _deleteProjectUrl = environment.apiUrl + '/projects/';
   private _patchProjectUrl = environment.apiUrl + '/projects/';
   private _deleteAssociatedUserUrl = environment.apiUrl + '/associatedusers/';
+  private _addAssociatedUserUrl = environment.apiUrl + '/associatedusers/';
   private options;
 
   constructor(private http: Http, private router: Router, private httpClient: HttpClient) {
@@ -73,5 +75,18 @@ export class ProjectService {
 
   removeAssociatedUser(projectId: string, userId: string) {
     return this.httpClient.delete(this._deleteAssociatedUserUrl + projectId + '/' + userId, this.options);
+  }
+
+  addAssociatedUser(projectId: string, userId: string) {
+    const body = {
+      projectId: projectId,
+      userId: userId
+    };
+
+    return this.httpClient.post(this._addAssociatedUserUrl, body, this.options)
+      .map((result) => {
+        const data = result['data'];
+        return <UserModel> new UserModel().deserialize(data);
+      });
   }
 }

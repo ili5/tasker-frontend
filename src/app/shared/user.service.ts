@@ -11,15 +11,26 @@ export class UserService {
   private _loginUrl = environment.apiUrl + '/clients/web/admin/login';
   private _registerUrl = environment.apiUrl + '/register';
   private _getMe = environment.apiUrl + '/me';
+  private _searchUser = environment.apiUrl + '/searchusers';
   private httpOptions = {};
 
   constructor(private httpClient: HttpClient) {
-    this.httpOptions = {
-      headers: new HttpHeaders({
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      })
-    };
+    if (localStorage.getItem('accessToken')) {
+      this.httpOptions = {
+        headers: new HttpHeaders({
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'Authorization' : 'Bearer ' + localStorage.getItem('accessToken'),
+        })
+      };
+    } else {
+      this.httpOptions = {
+        headers: new HttpHeaders({
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        })
+      };
+    }
   }
 
   login(email: string, password: string) {
@@ -63,14 +74,7 @@ export class UserService {
   }
 
   checkMe() {
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'Authorization' : 'Bearer ' + localStorage.getItem('accessToken'),
-      })
-    };
-    return this.httpClient.get<UserModel>(this._getMe, httpOptions)
+    return this.httpClient.get<UserModel>(this._getMe, this.httpOptions)
       .map((result) => {
         const data = result['data'];
         localStorage.setItem('me', JSON.stringify(data));
@@ -82,4 +86,15 @@ export class UserService {
     return new UserModel().deserialize(localStorage.getItem('accessToken'));
   }
 
+  searchUsers(query: string, projectId: string){
+    const body = {
+      query: query,
+      projectId: projectId
+    };
+    return this.httpClient.post<UserModel[]>(this._searchUser, body, this.httpOptions)
+      .map((result) => {
+        const data = result['data'];
+        return <UserModel[]> data.map(user => new UserModel().deserialize(user));
+      });
+  }
 }
