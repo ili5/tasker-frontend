@@ -25,7 +25,8 @@ export class AddTaskComponent implements OnInit {
       'title'  : [null, Validators.required],
       'description'  : [null, Validators.required],
       'assigned_id' : [null, Validators.required],
-      'board_id' : [null, Validators.required]
+      'board_id' : [null, Validators.required],
+      'due_date' : [null, Validators.required],
     });
 
   }
@@ -53,6 +54,12 @@ export class AddTaskComponent implements OnInit {
 
   open(content) {
     this.addTaskForm.controls['board_id'].setValue(this.boardId);
-    this.modalReference = this.modalService.open(content);
+    this.modalReference = this.modalService.open(content, {
+      backdrop: false,
+      beforeDismiss: () => {
+        return true;
+      },
+      size: 'lg'
+    });
   }
 }

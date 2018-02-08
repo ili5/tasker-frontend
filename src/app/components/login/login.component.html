@@ -1,12 +1,13 @@
-<div class="container">
-  <div class="row justify-content-md-center align-items-center">
+<div class="container h-100">
+  <div class="row h-100 justify-content-center align-items-center">
     <div class="col-12 col-md-6">
       <form [formGroup]="loginForm" (ngSubmit)="login(loginForm.value)" autocomplete="nope">
         <div class="card">
-          <div class="card-body">
+
             <div class="card-header text-center">
               <h3>Login</h3>
             </div>
+          <div class="card-body">
             <div class="card-content">
               <div class="form-group label-floating">
                 <label class="control-label" for="email">Email address</label>
@@ -17,12 +18,13 @@
                 <label class="control-label" for="password">Password</label>
                 <input type="password" class="form-control" name="password" id="password" formControlName="password" autocomplete="new-password">
               </div>
+              </div>
             </div>
             <div class="footer text-center">
               <button type="submit" class="btn btn-primary btn-lg" [disabled]="!loginForm.valid">{{ submitText }}</button> <br>
               <a routerLink="register">Register</a>
             </div>
-          </div>
+
         </div>
       </form>
     </div>

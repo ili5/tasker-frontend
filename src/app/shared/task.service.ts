@@ -24,6 +24,7 @@ export class TaskService {
       description: formValues.description,
       assigned_id: formValues.assigned_id,
       board_id: formValues.board_id,
+      due_date: formValues.due_date,
       project_id: projectId
     };
     return this.http.post(this._addTaskUrl, body, this.options)

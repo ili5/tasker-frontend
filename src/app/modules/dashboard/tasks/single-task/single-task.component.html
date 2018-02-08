@@ -1,13 +1,34 @@
-<div class="card">
-  <div class="card-body">
-    <h5 class="card-title">
+<div class="card task mb-3" (click)="open(content)">
+    <div class="card-header text-white bg-primary">
       {{ task.title}}
-    </h5>
-    <div class="card-text">
-      {{ task.description}}
     </div>
-    <div class="card-footer">
-      {{ task.updated_at.date | amTimeAgo }}
+    <div class="card-body">
+      <small class="card-text">
+        {{ task.description}}
+      </small>
     </div>
-  </div>
+    <div class="card-footer text-white bg-secondary">
+      <small class="pull-right">
+        {{ task.updated_at.date | amTimeAgo }}
+      </small>
+    </div>
 </div>
+<ng-template #content let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">{{ task.title}}</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <strong>Task Description</strong>
+    <hr>
+    <p>{{ task.description}}</p>
+    <hr>
+    <strong>Creator: </strong> {{ task.creator.name }}
+    <hr>
+    <strong>Assigned To: </strong> {{ task.assigned.name }}
+    <hr>
+    <strong>Due date: </strong> {{ task.due_date.date | amTimeAgo }}
+  </div>
+</ng-template>
