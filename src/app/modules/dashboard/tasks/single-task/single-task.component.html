@@ -8,6 +8,10 @@
       </small>
     </div>
     <div class="card-footer text-white bg-secondary">
+      <small class="pull-left">
+        Creator: {{ task.creator.name }}<br>
+        Assignee: {{ task.assigned.name }}
+      </small>
       <small class="pull-right">
         {{ task.updated_at.date | amTimeAgo }}
       </small>
@@ -22,13 +26,33 @@
   </div>
   <div class="modal-body">
     <strong>Task Description</strong>
-    <hr>
     <p>{{ task.description}}</p>
     <hr>
     <strong>Creator: </strong> {{ task.creator.name }}
     <hr>
     <strong>Assigned To: </strong> {{ task.assigned.name }}
     <hr>
-    <strong>Due date: </strong> {{ task.due_date.date | amTimeAgo }}
+    <strong>Due date: </strong> {{ task.due_date.date | amDateFormat:'LL' }}
+    <hr>
+    <strong>Created: </strong> {{ task.created_at.date | amTimeAgo }}
+    <hr>
+    <strong>Updated: </strong> {{ task.updated_at.date | amTimeAgo }}
+    <div class="" *ngIf="showEdit()">
+      <hr>
+      <button type="button" class="btn btn-sm btn-outline-primary btn-block">
+        Edit task
+      </button>
+      <br>
+      <button type="button" class="btn btn-sm btn-outline-danger btn-block">
+        Delete task
+      </button>
+    </div>
+    <div class="" *ngIf="showChangeStatus()">
+      <hr>
+      <strong>Change status:</strong>
+      <select class="form-control" (change)="changeTaskStatus($event, task)">
+        <option *ngFor="let board of boards" value="{{ board.id }}" [selected]="board.id == task.board">{{ board.name }}</option>
+      </select>
+    </div>
   </div>
 </ng-template>

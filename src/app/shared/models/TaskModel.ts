@@ -8,6 +8,7 @@ export class TaskModel implements Deserializable<TaskModel> {
   public board: string;
   public creator: UserModel;
   public assigned: UserModel;
+  public due_date: any;
   public created_at: any;
   public updated_at: any;
 
