@@ -10,6 +10,7 @@ import {ProjectService} from "../../../../shared/project.service";
   templateUrl: './edit-projects.component.html'
 })
 export class EditProjectsComponent {
+  @Input() buttonClass: string;
   @Input() project: ProjectModel;
   @Output() onProjectEdited: EventEmitter<ProjectModel> = new EventEmitter<ProjectModel>();
   editProjectForm: FormGroup;

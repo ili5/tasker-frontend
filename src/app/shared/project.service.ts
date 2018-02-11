@@ -1,13 +1,12 @@
 import {Injectable} from "@angular/core";
 import {environment} from "../../environments/environment";
-import {Headers, Http, RequestOptions, Response} from "@angular/http";
 import {Router} from "@angular/router";
-import {Observable} from "rxjs/Observable";
 import {ProjectModel} from "./models/ProjectModel";
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/toPromise';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {UserModel} from "./models/UserModel";
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 @Injectable()
 export class ProjectService {
@@ -18,9 +17,11 @@ export class ProjectService {
   private _patchProjectUrl = environment.apiUrl + '/projects/';
   private _deleteAssociatedUserUrl = environment.apiUrl + '/associatedusers/';
   private _addAssociatedUserUrl = environment.apiUrl + '/associatedusers/';
+  private projectSource = new BehaviorSubject<ProjectModel>(new ProjectModel());
+  public currentProjectSource = this.projectSource.asObservable();
   private options;
 
-  constructor(private http: Http, private router: Router, private httpClient: HttpClient) {
+  constructor(private router: Router, private httpClient: HttpClient) {
     this.options = {
       headers: new HttpHeaders({
         'Accept'  : 'application/json',
@@ -65,7 +66,9 @@ export class ProjectService {
     return this.httpClient.get(this._getProjectUrl + projectId, this.options)
       .map((result) => {
         const data = result['data'];
-        return <ProjectModel> new ProjectModel().deserialize(data);
+        const project = new ProjectModel().deserialize(data);
+        this.changeProjectSource(project);
+        return <ProjectModel> project;
       });
   }
 
@@ -88,5 +91,9 @@ export class ProjectService {
         const data = result['data'];
         return <UserModel> new UserModel().deserialize(data);
       });
+  }
+
+  changeProjectSource(project: ProjectModel) {
+    this.projectSource.next(project);
   }
 }

@@ -4,6 +4,7 @@ import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {BoardModel} from '../../../../shared/models/BoardModel';
 import {TaskService} from '../../../../shared/task.service';
 import {ProjectModel} from '../../../../shared/models/ProjectModel';
+import {ProjectService} from "../../../../shared/project.service";
 
 @Component({
   selector: 'single-task',
@@ -13,11 +14,18 @@ import {ProjectModel} from '../../../../shared/models/ProjectModel';
 })
 export class SingleTaskComponent {
   @Input() task: TaskModel;
-  @Input() boards: BoardModel[];
+  boards: BoardModel[];
+  project: ProjectModel;
   @Output() onTaskStatusChanged: EventEmitter<TaskModel> = new EventEmitter<TaskModel>();
   modalReference: any;
   constructor(private modalService: NgbModal,
-              private taskService: TaskService) {}
+              private taskService: TaskService,
+              private projectService: ProjectService) {
+    projectService.currentProjectSource.subscribe(data => {
+      this.project = data;
+      this.boards = this.project.boards;
+    });
+  }
 
   open(content) {
     this.modalReference = this.modalService.open(content, {
@@ -31,7 +39,7 @@ export class SingleTaskComponent {
 
   showEdit(): boolean {
     const user = JSON.parse(localStorage.getItem('me'));
-    if (user.id === this.task.creator.id) {
+    if (this.project.owner || user.id === this.task.creator.id) {
       return true;
     } else {
       return false;
@@ -42,7 +50,7 @@ export class SingleTaskComponent {
     const user = JSON.parse(localStorage.getItem('me'));
     const assignedUser = this.task.assigned;
     const creatorUser = this.task.creator;
-    if (user.id === assignedUser.id || user.id === creatorUser.id ){
+    if (this.project.owner || user.id === assignedUser.id || user.id === creatorUser.id ){
       return true;
     } else {
       return false;

@@ -1,8 +1,27 @@
 <div class="row">
-  <div class="col-3">
+  <div class="col-md-3 col-sm-12 col-xs-12">
+    <div class="card project-info">
+      <div class="card-header">
+        <span class="pull-left">
+          Project info
+        </span>
+        <div class="pull-right" *ngIf="project?.owner">
+          <edit-projects [project]="project" [buttonClass]="btn-outline-success" (onProjectEdited)="projectEdited($event)"></edit-projects>
+        </div>
+      </div>
+      <div class="card-body">
+        <strong>Project Owner:</strong> {{ projectOwner?.name }}
+        <hr>
+        <strong>Project Name</strong>
+        <p>{{ project?.name }}</p>
+        <hr>
+        <strong>Project Description</strong>
+        <p>{{ project?.description }}</p>
+      </div>
+    </div>
     <associated-users [users]="associatedUsers" [projectOwner]="projectOwner" [projectId]="projectId"></associated-users>
   </div>
-  <div class="col-9">
+  <div class="col-md-9 col-sm-12 col-xs-12">
     <div *ngIf="boards">
       <list-boards [boards]="boards" [projectId]="projectId" [users]="users"></list-boards>
     </div>

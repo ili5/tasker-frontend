@@ -2,6 +2,7 @@ import {Component, OnInit} from "@angular/core";
 import {ActivatedRoute} from "@angular/router";
 import {ProjectService} from "../../../../shared/project.service";
 import {Subscription} from "rxjs/Subscription";
+import {ProjectModel} from "../../../../shared/models/ProjectModel";
 
 @Component({
   selector: 'single-project',
@@ -52,5 +53,10 @@ export class SingleProjectComponent implements OnInit {
 
   ngOnInit() {
 
+  }
+
+  projectEdited(project: ProjectModel) {
+    this.project.description = project.description;
+    this.project.name = project.name;
   }
 }
