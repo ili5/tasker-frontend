@@ -3,12 +3,14 @@ import {ActivatedRoute} from "@angular/router";
 import {ProjectService} from "../../../../shared/project.service";
 import {Subscription} from "rxjs/Subscription";
 import {ProjectModel} from "../../../../shared/models/ProjectModel";
+import {UserService} from "../../../../shared/user.service";
+import {BoardService} from "../../../../shared/board.service";
 
 @Component({
   selector: 'single-project',
   templateUrl: './single-project.component.html',
   styleUrls: ['./single-project.component.scss'],
-  providers: [ ProjectService ]
+  providers: [ ProjectService, UserService, BoardService ]
 })
 export class SingleProjectComponent implements OnInit {
   public projectId;
@@ -22,7 +24,9 @@ export class SingleProjectComponent implements OnInit {
   public users = [];
 
   constructor(private route: ActivatedRoute,
-              private projectService: ProjectService) {
+              private projectService: ProjectService,
+              private userService: UserService,
+              private boardService: BoardService) {
     this.projectId = this.route.snapshot.params.id;
     this.subscription = this.projectService.getProject(this.projectId).subscribe(
       data => {
@@ -31,6 +35,7 @@ export class SingleProjectComponent implements OnInit {
         this.projectOwner = this.project.user;
         this.tasks = this.project.tasks;
         this.boards = this.project.boards;
+        this.boardService.changeBoards(this.boards);
         this.users.push(this.projectOwner);
         this.associatedUsers.forEach(user => {
           this.users.push(user);
@@ -44,6 +49,8 @@ export class SingleProjectComponent implements OnInit {
           });
           board.tasks = tasks;
         });
+
+        this.userService.changeUsers(this.users);
       },
       error => {
         console.log(error);

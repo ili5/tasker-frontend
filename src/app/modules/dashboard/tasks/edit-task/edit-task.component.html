@@ -1,0 +1,51 @@
+<ng-template #content let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Edit task</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click2')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <form [formGroup]="editTaskForm" (ngSubmit)="editTask(editTaskForm.value)">
+    <div class="modal-body">
+      <div class="form-group label-floating">
+        <label class="control-label" for="title">Task Title</label>
+        <input type="text" id="title" name="title" formControlName="title" class="form-control">
+      </div>
+      <div class="form-group label-floating">
+        <label class="control-label" for="description">Task Description</label>
+        <textarea id="description" name="description" formControlName="description" class="form-control" rows="15"></textarea>
+      </div>
+      <div class="form-group label-floating">
+        <label class="control-label" for="board_id">Task Board</label>
+        <select class="form-control" id="board_id" name="board_id" formControlName="board_id">
+          <option *ngFor="let board of boards" value="{{ board.id }}">{{ board.name }}</option>
+        </select>
+      </div>
+      <div class="form-group label-floating">
+        <label class="control-label" for="assigned_id">Assign to</label>
+        <select class="form-control" id="assigned_id" name="assigned_id" formControlName="assigned_id">
+          <option *ngFor="let user of users" value="{{ user.id }}">{{ user.name }}</option>
+        </select>
+      </div>
+      <div class="form-group label-floating">
+        <label class="control-label" for="due_date">Due Date</label>
+        <div class="input-group">
+          <input class="form-control"
+                 name="due_date" id="due_date" formControlName="due_date" [(ngModel)]="dueDate" ngbDatepicker #c="ngbDatepicker">
+          <div class="input-group-append">
+            <button class="btn btn-outline-secondary" (click)="c.toggle()" type="button">
+              <img src="assets/icons/calendar.png" style="width: 1.2rem; height: 1rem; cursor: pointer;"/>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="submit" class="btn btn-outline-success" [disabled]="!editTaskForm.valid">
+        {{ submitText }}
+      </button>
+    </div>
+  </form>
+</ng-template>
+
+<button class="bbtn btn-sm btn-outline-primary btn-block" (click)="open(content)">Edit Task</button>

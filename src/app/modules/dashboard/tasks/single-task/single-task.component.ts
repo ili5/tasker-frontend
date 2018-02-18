@@ -13,10 +13,10 @@ import {ProjectService} from "../../../../shared/project.service";
   providers: [ TaskService ]
 })
 export class SingleTaskComponent {
-  @Input() task: TaskModel;
+  task: TaskModel;
   boards: BoardModel[];
   project: ProjectModel;
-  @Output() onTaskStatusChanged: EventEmitter<TaskModel> = new EventEmitter<TaskModel>();
+  @Output() onTaskChanged: EventEmitter<TaskModel> = new EventEmitter<TaskModel>();
   modalReference: any;
   constructor(private modalService: NgbModal,
               private taskService: TaskService,
@@ -27,6 +27,11 @@ export class SingleTaskComponent {
     });
   }
 
+  @Input()
+  set taskInput(task: TaskModel) {
+    this.task = task;
+  }
+
   open(content) {
     this.modalReference = this.modalService.open(content, {
       backdrop: true,
@@ -35,6 +40,7 @@ export class SingleTaskComponent {
       },
       size: 'lg'
     });
+    this.taskService.changeTask(this.task);
   }
 
   showEdit(): boolean {
@@ -50,7 +56,7 @@ export class SingleTaskComponent {
     const user = JSON.parse(localStorage.getItem('me'));
     const assignedUser = this.task.assigned;
     const creatorUser = this.task.creator;
-    if (this.project.owner || user.id === assignedUser.id || user.id === creatorUser.id ){
+    if (user.id === assignedUser.id || user.id === creatorUser.id && !this.project.owner){
       return true;
     } else {
       return false;
@@ -60,7 +66,14 @@ export class SingleTaskComponent {
   changeTaskStatus(event, task: TaskModel) {
     const newBoardId = event.target.value;
     this.taskService.changeTaskStatus(newBoardId, task.id).subscribe(data => {
-
+      this.onTaskChanged.emit(data);
     });
+  }
+
+  taskEdited(event: TaskModel) {
+    if (this.task.board !== event.board) {
+      this.onTaskChanged.emit(event);
+    }
+    this.task = event;
   }
 }

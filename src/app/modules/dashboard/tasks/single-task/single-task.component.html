@@ -39,9 +39,7 @@
     <strong>Updated: </strong> {{ task.updated_at.date | amTimeAgo }}
     <div class="" *ngIf="showEdit()">
       <hr>
-      <button type="button" class="btn btn-sm btn-outline-primary btn-block">
-        Edit task
-      </button>
+      <edit-task (onTaskEdited)="taskEdited($event)"></edit-task>
       <br>
       <button type="button" class="btn btn-sm btn-outline-danger btn-block">
         Delete task

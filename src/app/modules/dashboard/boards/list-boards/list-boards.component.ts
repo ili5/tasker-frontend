@@ -14,4 +14,15 @@ export class ListBoardsComponent implements OnInit {
 
   ngOnInit() {
   }
+
+  taskChanged(event) {
+    const task = event;
+    console.log('uso');
+    this.boards.forEach((board, index) => {
+      board.tasks = board.tasks.filter(existingTask => existingTask.id !== task.id);
+      if (task.board === board.id) {
+        board.tasks.push(task);
+      }
+    });
+  }
 }

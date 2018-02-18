@@ -4,6 +4,7 @@ import 'rxjs/add/operator/map';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {LoginModel} from './models/LoginModel';
 import {UserModel} from './models/UserModel';
+import {BehaviorSubject} from "rxjs/BehaviorSubject";
 
 
 @Injectable()
@@ -12,6 +13,14 @@ export class UserService {
   private _registerUrl = environment.apiUrl + '/register';
   private _getMe = environment.apiUrl + '/me';
   private _searchUser = environment.apiUrl + '/searchusers';
+  private userSource = new BehaviorSubject<UserModel>(
+    new UserModel()
+  );
+  currentUser = this.userSource.asObservable();
+
+  private usersSource = new BehaviorSubject<UserModel[]>([]);
+  currentUsers = this.usersSource.asObservable();
+
   private httpOptions = {};
 
   constructor(private httpClient: HttpClient) {
@@ -96,5 +105,13 @@ export class UserService {
         const data = result['data'];
         return <UserModel[]> data.map(user => new UserModel().deserialize(user));
       });
+  }
+
+  changeUser(user: UserModel) {
+    this.userSource.next(user);
+  }
+
+  changeUsers(users: UserModel[]) {
+    this.usersSource.next(users);
   }
 }

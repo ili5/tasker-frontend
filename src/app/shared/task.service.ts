@@ -1,9 +1,9 @@
 import {Injectable} from "@angular/core";
 import {environment} from "../../environments/environment";
-import {Headers, Http, RequestOptions, Response} from "@angular/http";
 import {Observable} from "rxjs/Observable";
 import {TaskModel} from "./models/TaskModel";
 import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {BehaviorSubject} from "rxjs/BehaviorSubject";
 
 @Injectable()
 export class TaskService {
@@ -11,6 +11,10 @@ export class TaskService {
   private _editTaskUrl = environment.apiUrl + '/tasks/';
   private headers;
   private options;
+  private taskSource = new BehaviorSubject<TaskModel>(
+    new TaskModel()
+  );
+  currentTask = this.taskSource.asObservable();
 
   constructor(private httpClient: HttpClient) {
     this.options = {
@@ -37,6 +41,21 @@ export class TaskService {
       });
   }
 
+  editTask(formValues, taskId): Observable <TaskModel> {
+    const body = {
+      title: formValues.title,
+      description: formValues.description,
+      assigned_id: formValues.assigned_id,
+      board_id: formValues.board_id,
+      due_date: formValues.due_date,
+    };
+    return this.httpClient.patch(this._editTaskUrl + taskId, body, this.options)
+      .map((response) => {
+        const data = response['data'];
+        return <TaskModel> new TaskModel().deserialize(data);
+      });
+  }
+
   changeTaskStatus(boardId, taskId) {
     const body = {
       board_id: boardId,
@@ -47,5 +66,9 @@ export class TaskService {
         const data = response['data'];
         return <TaskModel> new TaskModel().deserialize(data);
       });
+  }
+
+  changeTask(task: TaskModel) {
+    this.taskSource.next(task);
   }
 }

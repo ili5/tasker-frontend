@@ -15,6 +15,7 @@ import {MomentModule} from "angular2-moment";
 import {EditProjectsComponent} from "./edit-projects/edit-projects.component";
 import {AssociatedUsersComponent} from "../users/associated-users/associated-users.component";
 import {AddAssociatedUsersComponent} from "../users/add-associated-users/add-associated-users.component";
+import {EditTaskComponent} from "../tasks/edit-task/edit-task.component";
 
 @NgModule({
   imports: [
@@ -30,7 +31,6 @@ import {AddAssociatedUsersComponent} from "../users/add-associated-users/add-ass
     MomentModule
   ],
   declarations: [
-
     ProjectComponent,
     ListProjectsComponent,
     AddProjectsComponent,
@@ -40,7 +40,8 @@ import {AddAssociatedUsersComponent} from "../users/add-associated-users/add-ass
     AddAssociatedUsersComponent,
     ListBoardsComponent,
     SingleTaskComponent,
-    AddTaskComponent
+    AddTaskComponent,
+    EditTaskComponent
   ]
 })
 export class ProjectModule {}
