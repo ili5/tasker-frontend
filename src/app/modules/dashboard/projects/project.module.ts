@@ -16,6 +16,8 @@ import {EditProjectsComponent} from "./edit-projects/edit-projects.component";
 import {AssociatedUsersComponent} from "../users/associated-users/associated-users.component";
 import {AddAssociatedUsersComponent} from "../users/add-associated-users/add-associated-users.component";
 import {EditTaskComponent} from "../tasks/edit-task/edit-task.component";
+import {ListMessagesComponent} from "../messages/list-messages/list-messages.component";
+import {AddMessagesComponent} from "../messages/add-message/add-messages.component";
 
 @NgModule({
   imports: [
@@ -41,7 +43,9 @@ import {EditTaskComponent} from "../tasks/edit-task/edit-task.component";
     ListBoardsComponent,
     SingleTaskComponent,
     AddTaskComponent,
-    EditTaskComponent
+    EditTaskComponent,
+    ListMessagesComponent,
+    AddMessagesComponent,
   ]
 })
 export class ProjectModule {}

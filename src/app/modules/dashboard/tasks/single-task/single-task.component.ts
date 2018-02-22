@@ -5,6 +5,7 @@ import {BoardModel} from '../../../../shared/models/BoardModel';
 import {TaskService} from '../../../../shared/task.service';
 import {ProjectModel} from '../../../../shared/models/ProjectModel';
 import {ProjectService} from "../../../../shared/project.service";
+import {MessageModel} from "../../../../shared/models/MessageModel";
 
 @Component({
   selector: 'single-task',
@@ -13,10 +14,12 @@ import {ProjectService} from "../../../../shared/project.service";
   providers: [ TaskService ]
 })
 export class SingleTaskComponent {
+  newMessage: MessageModel = new MessageModel();
   task: TaskModel;
   boards: BoardModel[];
   project: ProjectModel;
   @Output() onTaskChanged: EventEmitter<TaskModel> = new EventEmitter<TaskModel>();
+  @Output() onTaskDeleted: EventEmitter<string> = new EventEmitter<string>();
   modalReference: any;
   constructor(private modalService: NgbModal,
               private taskService: TaskService,
@@ -75,5 +78,16 @@ export class SingleTaskComponent {
       this.onTaskChanged.emit(event);
     }
     this.task = event;
+  }
+
+  deleteTask(id) {
+    this.taskService.deleteTask(id).subscribe(data => {
+        this.onTaskDeleted.emit(id);
+        this.modalReference.close();
+    });
+  }
+
+  addMessage(event) {
+    this.newMessage = event;
   }
 }

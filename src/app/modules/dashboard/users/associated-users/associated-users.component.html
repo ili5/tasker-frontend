@@ -1,9 +1,9 @@
 <div class="card">
-  <div class="card-header">
+  <div class="card-header bg-dark text-white">
     <span class="pull-left">
       Associated users
     </span>
-    <add-associated-users [projectId]="projectId" (onUserAdded)="addUser($event)"></add-associated-users>
+    <add-associated-users *ngIf="checkOwner()" [projectId]="projectId" (onUserAdded)="addUser($event)"></add-associated-users>
   </div>
   <div class="card-body">
     <div class="list-group">
@@ -11,7 +11,7 @@
         <span class="pull-left">
           {{ user.name }}
         </span>
-        <span class="pull-right" *ngIf="checkOwner()">
+        <span class="pull-right" *ngIf="checkOwner() || checkMe(user)">
           <small class="remove-user" (click)="removeUser(user.id)">Remove</small>
         </span>
       </div>

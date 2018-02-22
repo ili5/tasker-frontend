@@ -1,0 +1,21 @@
+<hr>
+<h3>Add Comment</h3>
+<div class="row">
+  <div class="col-md-12 message">
+    <form [formGroup]="addMessageForm" (ngSubmit)="addMessage(addMessageForm.value)" autocomplete="nope">
+        <div class="form-group label-floating">
+          <textarea id="message" name="message" class="form-control" [class.is-invalid]="(message.touched && message.errors?.required) || errors?.message"
+                    formControlName="message"></textarea>
+          <div class="invalid-feedback" *ngIf="message.touched && message.errors?.required">
+            Message is required.
+          </div>
+          <div class="invalid-feedback" *ngIf="errors?.message">
+            {{ errors.message }}
+          </div>
+        </div>
+        <button type="submit" class="btn btn-outline-primary" [disabled]="!addMessageForm.valid">{{ submitText }}</button>
+    </form>
+  </div>
+  <div class="clearfix"></div>
+</div>
+

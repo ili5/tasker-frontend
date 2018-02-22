@@ -1,6 +1,7 @@
 import {Component, Input} from "@angular/core";
 import {ProjectService} from "../../../../shared/project.service";
 import {UserModel} from "../../../../shared/models/UserModel";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'associated-users',
@@ -12,7 +13,8 @@ export class AssociatedUsersComponent {
   @Input() projectOwner: UserModel = new UserModel();
   @Input() projectId: string;
 
-  constructor(private projectService: ProjectService) {
+  constructor(private projectService: ProjectService,
+              private router: Router) {
   }
 
   checkOwner(): boolean {
@@ -24,10 +26,24 @@ export class AssociatedUsersComponent {
     }
   }
 
+  checkMe(user: UserModel): boolean {
+    const userFromLocalStorage = new UserModel().deserialize(JSON.parse(localStorage.getItem('me')));
+    if (user.id === userFromLocalStorage.id) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   removeUser(userId: string) {
     this.projectService.removeAssociatedUser(this.projectId, userId).subscribe(
       data => {
-        this.users = this.users.filter(user => user.id !== userId);
+        const userFromLocalStorage = new UserModel().deserialize(JSON.parse(localStorage.getItem('me')));
+        if (userFromLocalStorage.id === userId) {
+             this.router.navigate(['dashboard']);
+        } else {
+          this.users = this.users.filter(user => user.id !== userId);
+        }
       }
     );
   }

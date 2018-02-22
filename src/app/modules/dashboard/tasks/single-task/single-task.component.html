@@ -4,7 +4,7 @@
     </div>
     <div class="card-body">
       <small class="card-text">
-        {{ task.description}}
+        <p>{{ (task.description.length>150)? (task.description | slice:0:150)+'..':(task.description) }}</p>
       </small>
     </div>
     <div class="card-footer text-white bg-secondary">
@@ -26,7 +26,7 @@
   </div>
   <div class="modal-body">
     <strong>Task Description</strong>
-    <p>{{ task.description}}</p>
+    <p>{{ task.description }}</p>
     <hr>
     <strong>Creator: </strong> {{ task.creator.name }}
     <hr>
@@ -41,7 +41,7 @@
       <hr>
       <edit-task (onTaskEdited)="taskEdited($event)"></edit-task>
       <br>
-      <button type="button" class="btn btn-sm btn-outline-danger btn-block">
+      <button type="button" class="btn btn-sm btn-outline-danger btn-block" (click)="deleteTask(task.id)">
         Delete task
       </button>
     </div>
@@ -52,5 +52,7 @@
         <option *ngFor="let board of boards" value="{{ board.id }}" [selected]="board.id == task.board">{{ board.name }}</option>
       </select>
     </div>
+    <list-messages [taskId]="task.id" [newMessage]="newMessage"></list-messages>
+    <add-messages [taskId]="task.id" (onMessageAdded)="addMessage($event)"></add-messages>
   </div>
 </ng-template>

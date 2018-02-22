@@ -17,12 +17,18 @@ export class ListBoardsComponent implements OnInit {
 
   taskChanged(event) {
     const task = event;
-    console.log('uso');
-    this.boards.forEach((board, index) => {
+    this.boards.forEach(board => {
       board.tasks = board.tasks.filter(existingTask => existingTask.id !== task.id);
       if (task.board === board.id) {
         board.tasks.push(task);
       }
+    });
+  }
+
+  taskDeleted(event) {
+    const id = event;
+    this.boards.forEach(board => {
+      board.tasks = board.tasks.filter(existingTask => existingTask.id !== id);
     });
   }
 }

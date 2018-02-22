@@ -4,6 +4,12 @@
   </div>
 </div>
 <br>
+<div class="row">
+  <div class="col-md-12">
+    <h2>Projects List</h2>
+    <hr>
+  </div>
+</div>
 <div class="row justify-content-center" *ngIf="loading">
   <div class="col col-md-auto">
     <h4>Loading, please wait...</h4>
@@ -13,9 +19,12 @@
   <div class="col-4" *ngFor="let project of projects">
     <div class="card bg-light mb-3" >
       <div class="card-header bg-secondary">
-        <a [routerLink]="['project/', project.id]">
-          <h4 class="pull-left">{{ project.name }}</h4>
-        </a>
+        <div class="pull-left">
+          <a [routerLink]="['project/', project.id]">
+            {{ project.name }}
+          </a>
+        </div>
+
         <div class="pull-right" *ngIf="project.owner">
           <div class="btn-group">
             <edit-projects [project]="project" (onProjectEdited)="editProject($event)"></edit-projects>
@@ -32,7 +41,7 @@
       </div>
       <div class="card-footer">
         <p class="card-text">
-          <small class="text-left pull-left" *ngIf="!project.owner">Project owner: {{ project.user.name }}</small>
+          <small class="text-left pull-left">Project owner: {{ project.user.name }}</small>
           <small class="text-right pull-right">Created: {{ project.created_at.date | amTimeAgo }} </small>
         </p>
       </div>

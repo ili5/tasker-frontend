@@ -9,6 +9,7 @@ import {BehaviorSubject} from "rxjs/BehaviorSubject";
 export class TaskService {
   private _addTaskUrl = environment.apiUrl + '/tasks';
   private _editTaskUrl = environment.apiUrl + '/tasks/';
+  private _deleteTaskUrl = environment.apiUrl + '/tasks/';
   private headers;
   private options;
   private taskSource = new BehaviorSubject<TaskModel>(
@@ -70,5 +71,12 @@ export class TaskService {
 
   changeTask(task: TaskModel) {
     this.taskSource.next(task);
+  }
+
+  deleteTask(taskId) {
+    return this.httpClient.delete(this._deleteTaskUrl + taskId, this.options)
+      .map((response) => {
+        return true;
+      });
   }
 }
