@@ -14,6 +14,8 @@ export class AddMessagesComponent {
   @Output() onMessageAdded: EventEmitter<MessageModel> = new EventEmitter<MessageModel>();
   addMessageForm: FormGroup;
   public submitText = 'Add Comment';
+  errors: any;
+
   constructor(private messageService: MessageService,
               private fb: FormBuilder) {
     this.addMessageForm = fb.group({
@@ -27,6 +29,11 @@ export class AddMessagesComponent {
       this.submitText = 'Add Comment';
       this.onMessageAdded.emit(data);
       this.addMessageForm.reset();
+    }, error => {
+      if (error.status === 422) {
+        this.errors = error.error.errors;
+        this.submitText = 'Add Project';
+      }
     });
   }
 
